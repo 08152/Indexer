@@ -3,7 +3,7 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// CORS erlauben, damit deine HTML-Datei (auch auf GitHub) zugreifen darf
+// CORS aktivieren, damit deine GitHub-Page ungehindert zugreifen darf
 app.use(cors());
 
 app.get('/search', async (req, res) => {
@@ -11,7 +11,7 @@ app.get('/search', async (req, res) => {
     if (!query) return res.status(400).json({ error: "Kein Suchbegriff angegeben." });
 
     try {
-        // Der Indexer fragt das unzensierte, freie HTTPS-Wissensnetz ab
+        // Abfrage an das unblockierte, freie HTTPS-Wissensnetz
         const webUrl = `https://wikipedia.org{encodeURIComponent(query)}&format=json`;
         const response = await fetch(webUrl);
         const data = await response.json();
@@ -29,7 +29,7 @@ app.get('/search', async (req, res) => {
             });
         }
 
-        // Ergebnisse ohne Wartezeit direkt an die HTML zurückschicken
+        // Ergebnisse sofort als JSON zurücksenden
         res.json({ results: results });
 
     } catch (error) {
